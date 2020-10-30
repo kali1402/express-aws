@@ -13,7 +13,7 @@ router.get('/', function (req, res, next) {
             }
         })
         .then(() => {
-            res.render('index', { data: menu })
+            res.render('index', { data: menu, title: "점심메뉴" })
         })
 });
 module.exports = router;
