@@ -3,19 +3,27 @@ var express = require('express');
 var router = express.Router();
 var { Expo } = require("expo-server-sdk");
 const expo = new Expo();
+const Redis = require('ioredis');
+const redis = new Redis({
+    host: 'redis-17192.c244.us-east-1-2.ec2.cloud.redislabs.com',
+    port: '17192',
+    password: 'BXo6xTCqXmaexaEddTcZCI7BT0nWfZTh',
+    db: 0
+});
 
 const savedPushTokens = [];
 
-const saveToken = (token) => {
+const saveToken = async (token) => {
     if (savedPushTokens.indexOf(token === -1)) {
         savedPushTokens.push(token);
     }
+    await redis.set('savedPushTokens', JSON.stringify(savedPushTokens));
 };
 
-const handlePushTokens = (message) => {
+const handlePushTokens = async (message) => {
     let notification = [];
-
-    for (let pushToken of savedPushTokens) {
+    let mytokens = JSON.parse(await redis.get('savedPushTokens'))
+    for (let pushToken of mytokens) {
         if (!Expo.isExpoPushToken(pushToken)) {
             console.log("ERROR");
             continue;
