@@ -42,10 +42,6 @@ const handlePushTokens = (message) => {
     })();
 };
 
-router.get("/", (req, res) => {
-    res.send("서버 실행중...");
-});
-
 router.post("/token", (req, res) => {
     saveToken(req.body.token.value);
 });
