@@ -51,7 +51,6 @@ const handlePushTokens = async (message) => {
 };
 
 router.post("/token", (req, res) => {
-    console.log(mytokens == req.body.token.value);
     saveToken(req.body.token.value);
 });
 
