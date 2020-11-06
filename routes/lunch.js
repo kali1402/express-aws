@@ -50,12 +50,8 @@ const handlePushTokens = async (message) => {
     })();
 };
 
-router.post("/token", async (req, res) => {
-    if (JSON.parse(await redis.get('savedPushTokens')) == req.body.token.value) {
-        console.log("ㅎㅇ");
-    } else {
-        saveToken(req.body.token.value);
-    }
+router.post("/token", (req, res) => {
+    saveToken(req.body.token.value);
 });
 
 router.post("/message", (req, res) => {
